@@ -1,0 +1,76 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Checkbox list',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: CheckboxList(),
+    );
+  }
+}
+
+class CheckboxList extends StatefulWidget {
+  @override
+  _CheckboxListState createState() => _CheckboxListState();
+}
+
+class _CheckboxListState extends State<CheckboxList> {
+  List<Item> items = [
+    Item(title: 'Task 1'),
+    Item(title: 'Task 2'),
+    Item(title: 'Task 3'),
+    Item(title: 'Task 4'),
+    Item(title: 'Task 5'),
+  ];
+
+  void _toggleItem(Item item) {
+    setState(() {
+      item.isChecked = !item.isChecked;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Checkbox list'),
+      ),
+      body: ListView.builder(
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(
+              items[index].title,
+              style: TextStyle(
+                decoration: items[index].isChecked
+                    ? TextDecoration.lineThrough
+                    : TextDecoration.none,
+              ),
+            ),
+            leading: Checkbox(
+              value: items[index].isChecked,
+              onChanged: (bool? value) {
+                _toggleItem(items[index]);
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class Item {
+  final String title;
+  bool isChecked;
+
+  Item({required this.title, this.isChecked = false});
+}
